@@ -4,7 +4,7 @@
  */
  {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "v1-scribblecast-podcast-0ebf9751-80f4-4ac0-9922-b49f8b11edd5",
+	"name": "noral-notlar",
 	"main": "worker/index.ts",
 	"compatibility_date": "2025-04-24",
 	"assets": {
