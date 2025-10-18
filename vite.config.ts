@@ -1,7 +1,7 @@
 import { defineConfig, loadEnv } from "vite";
 import path from "path";
 import react from "@vitejs/plugin-react";
-import { exec } from "node:child_process";
+import { unlink } from "node:fs/promises";
 import pino from "pino";
 import { cloudflare } from "@cloudflare/vite-plugin";
 
@@ -68,17 +68,17 @@ function watchDependenciesPlugin() {
             )}. Clearing caches...`
           );
 
-          // Run the cache-clearing command
-          exec(
-            "rm -f .eslintcache tsconfig.tsbuildinfo",
-            (err, stdout, stderr) => {
-              if (err) {
-                console.error("Failed to clear caches:", stderr);
-                return;
-              }
-              console.log("✅ Caches cleared successfully.\n");
-            }
-          );
+          // Use Node.js fs to delete files (cross-platform)
+          const filesToDelete = [".eslintcache", "tsconfig.tsbuildinfo"];
+          Promise.all(
+            filesToDelete.map((file) =>
+              unlink(file).catch(() => {
+                // Silently ignore if file doesn't exist
+              })
+            )
+          ).then(() => {
+            console.log("✅ Caches cleared successfully.\n");
+          });
         }
       });
     },

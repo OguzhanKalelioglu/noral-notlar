@@ -5,29 +5,29 @@ import { Input } from '@/components/ui/input';
 import { Toaster } from '@/components/ui/sonner';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
-import { PlayCircle, Send } from 'lucide-react';
+import { PlayCircle, Send, Radio } from 'lucide-react';
 import { AIIllustrationIcon, ApplePodcastsIcon, InstagramIcon, ScribbleIcon, SpotifyIcon, TwitterIcon } from '@/components/Icons';
 const episodes = [
   {
     id: 1,
-    title: 'The Art of Doodling',
-    description: 'Exploring how simple sketches can unlock complex ideas and boost creativity.',
-    duration: '45 min',
-    image: 'https://images.unsplash.com/photo-1589792933539-201c35a831b1?q=80&w=400&h=400&auto=format&fit=crop',
+    title: 'ChatGPT ve Dil Modelleri',
+    description: 'Büyük dil modellerinin nasıl çalıştığını, GPT-4\'ün yeteneklerini ve yapay zekanın dil anlama konusundaki gelişimini keşfediyoruz.',
+    duration: '45 dk',
+    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=400&h=400&auto=format&fit=crop',
   },
   {
     id: 2,
-    title: 'Color Theory for Thinkers',
-    description: 'A deep dive into the psychology of color and how it shapes our world.',
-    duration: '52 min',
-    image: 'https://images.unsplash.com/photo-1558470598-a5dda9640f68?q=80&w=400&h=400&auto=format&fit=crop',
+    title: 'Makine Öğrenimi Temelleri',
+    description: 'Yapay zekanın temellerinden neural networklere, algoritmaların nasıl öğrendiğini ve tahmin yaptığını anlıyoruz.',
+    duration: '52 dk',
+    image: 'https://images.unsplash.com/photo-1655720828018-edd2daec9349?q=80&w=400&h=400&auto=format&fit=crop',
   },
   {
     id: 3,
-    title: 'Typography that Speaks',
-    description: 'From serifs to sans-serifs, we chat about what makes a typeface truly sing.',
-    duration: '38 min',
-    image: 'https://images.unsplash.com/photo-1596495577886-d9256f44224b?q=80&w=400&h=400&auto=format&fit=crop',
+    title: 'AI ve Etik: Geleceğin Soruları',
+    description: 'Yapay zekanın toplum üzerindeki etkileri, etik sorunlar ve AI güvenliği üzerine derin bir sohbet.',
+    duration: '38 dk',
+    image: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=400&h=400&auto=format&fit=crop',
   },
 ];
 export function HomePage() {
@@ -35,13 +35,13 @@ export function HomePage() {
   const handleNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (email && /^\S+@\S+\.\S+$/.test(email)) {
-      toast.success("You're on the list!", {
-        description: "Thanks for subscribing to ScribbleCast. We'll be in your inbox soon.",
+      toast.success("Listedesiniz!", {
+        description: "Nöral Notlar'a abone olduğunuz için teşekkürler. Yakında gelen kutunuzda olacağız.",
       });
       setEmail('');
     } else {
-      toast.error('Oops!', {
-        description: 'Please enter a valid email address.',
+      toast.error('Hata!', {
+        description: 'Lütfen geçerli bir e-posta adresi girin.',
       });
     }
   };
@@ -60,45 +60,268 @@ export function HomePage() {
   );
 }
 const Header = () => (
-  <header className="sticky top-0 z-50 bg-amber-500/80 backdrop-blur-sm">
+  <header className="sticky top-0 z-50 bg-amber-500/80 backdrop-blur-sm border-b border-deepIndigo-900/10">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="flex items-center justify-between h-20">
         <a href="/" className="flex items-center gap-2 group">
-          <ScribbleIcon className="w-8 h-8 text-deepIndigo-900 group-hover:rotate-12 transition-transform" />
-          <span className="text-2xl font-display font-bold">ScribbleCast</span>
+          <svg 
+            width="32" 
+            height="32" 
+            viewBox="0 0 32 32" 
+            fill="none" 
+            className="w-8 h-8 transition-transform group-hover:scale-110"
+          >
+            {/* Not defteri */}
+            <rect x="6" y="2" width="20" height="28" rx="2" fill="#312E81" stroke="#1E1B4B" strokeWidth="1.5"/>
+            {/* Spiral delikler */}
+            <circle cx="10" cy="5" r="1.5" fill="#FCD34D"/>
+            <circle cx="16" cy="5" r="1.5" fill="#FCD34D"/>
+            <circle cx="22" cy="5" r="1.5" fill="#FCD34D"/>
+            {/* Çizgiler/notlar */}
+            <line x1="10" y1="12" x2="22" y2="12" stroke="#8B5CF6" strokeWidth="1.5" strokeLinecap="round"/>
+            <line x1="10" y1="16" x2="22" y2="16" stroke="#8B5CF6" strokeWidth="1.5" strokeLinecap="round"/>
+            <line x1="10" y1="20" x2="18" y2="20" stroke="#8B5CF6" strokeWidth="1.5" strokeLinecap="round"/>
+            <line x1="10" y1="24" x2="20" y2="24" stroke="#8B5CF6" strokeWidth="1.5" strokeLinecap="round"/>
+          </svg>
+          <span className="text-2xl font-display font-bold">Nöral Notlar</span>
         </a>
         <nav className="hidden md:flex items-center space-x-8">
-          <a href="#episodes" className="font-semibold hover:text-offWhite transition-colors">Episodes</a>
-          <a href="#subscribe" className="font-semibold hover:text-offWhite transition-colors">Subscribe</a>
+          <a href="#episodes" className="font-semibold hover:text-offWhite transition-colors">Bölümler</a>
+          <a href="#subscribe" className="font-semibold hover:text-offWhite transition-colors">Abone Ol</a>
         </nav>
-        <Button asChild className="bg-deepIndigo-900 text-offWhite hover:bg-deepIndigo-800 transition-all duration-300 transform hover:scale-105 shadow-lg">
-          <a href="#episodes">Listen Now</a>
-        </Button>
+        <div className="flex items-center gap-2 bg-deepIndigo-900/10 rounded-full p-1">
+          <a 
+            href="https://open.spotify.com/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="p-2 rounded-full hover:bg-deepIndigo-900 text-deepIndigo-900 hover:text-offWhite transition-all duration-300 group"
+            title="Spotify'da Dinle"
+          >
+            <SpotifyIcon className="w-5 h-5" />
+          </a>
+          <a 
+            href="https://podcasts.apple.com/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="p-2 rounded-full hover:bg-deepIndigo-900 text-deepIndigo-900 hover:text-offWhite transition-all duration-300 group"
+            title="Apple Podcasts'te Dinle"
+          >
+            <ApplePodcastsIcon className="w-5 h-5" />
+          </a>
+        </div>
       </div>
     </div>
   </header>
 );
 const HeroSection = () => (
   <section className="relative overflow-hidden">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 lg:py-40">
-      <div className="grid md:grid-cols-2 gap-12 items-center">
+    {/* Decorative floating elements - AI themed */}
+    <div className="absolute inset-0 pointer-events-none">
+      {/* AI Brain chip - top left */}
+      <motion.div
+        animate={{ 
+          y: [0, -30, 0],
+          rotate: [-2, 2, -2]
+        }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-20 left-[5%] opacity-60"
+      >
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+          <rect x="10" y="10" width="60" height="60" rx="4" fill="#DDD6FE" stroke="#8B5CF6" strokeWidth="2"/>
+          <circle cx="40" cy="40" r="15" fill="#A78BFA" stroke="#7C3AED" strokeWidth="2"/>
+          <circle cx="40" cy="40" r="8" fill="#C084FC"/>
+          <line x1="25" y1="40" x2="15" y2="40" stroke="#8B5CF6" strokeWidth="2"/>
+          <line x1="55" y1="40" x2="65" y2="40" stroke="#8B5CF6" strokeWidth="2"/>
+          <line x1="40" y1="25" x2="40" y2="15" stroke="#8B5CF6" strokeWidth="2"/>
+          <line x1="40" y1="55" x2="40" y2="65" stroke="#8B5CF6" strokeWidth="2"/>
+          <circle cx="25" cy="25" r="3" fill="#6366F1"/>
+          <circle cx="55" cy="25" r="3" fill="#6366F1"/>
+          <circle cx="25" cy="55" r="3" fill="#6366F1"/>
+          <circle cx="55" cy="55" r="3" fill="#6366F1"/>
+        </svg>
+      </motion.div>
+
+      {/* Neural network node - top right */}
+      <motion.div
+        animate={{ 
+          scale: [1, 1.2, 1],
+          opacity: [0.5, 0.8, 0.5]
+        }}
+        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-32 right-[10%] opacity-50"
+      >
+        <svg width="90" height="90" viewBox="0 0 90 90" fill="none">
+          <circle cx="45" cy="45" r="18" fill="#C4B5FD" stroke="#8B5CF6" strokeWidth="2"/>
+          <circle cx="45" cy="45" r="10" fill="#DDD6FE"/>
+          <circle cx="20" cy="20" r="8" fill="#A78BFA" stroke="#7C3AED" strokeWidth="1.5"/>
+          <circle cx="70" cy="20" r="8" fill="#A78BFA" stroke="#7C3AED" strokeWidth="1.5"/>
+          <circle cx="20" cy="70" r="8" fill="#A78BFA" stroke="#7C3AED" strokeWidth="1.5"/>
+          <circle cx="70" cy="70" r="8" fill="#A78BFA" stroke="#7C3AED" strokeWidth="1.5"/>
+          <line x1="28" y1="24" x2="37" y2="35" stroke="#8B5CF6" strokeWidth="1.5" opacity="0.6"/>
+          <line x1="62" y1="24" x2="53" y2="35" stroke="#8B5CF6" strokeWidth="1.5" opacity="0.6"/>
+          <line x1="28" y1="66" x2="37" y2="55" stroke="#8B5CF6" strokeWidth="1.5" opacity="0.6"/>
+          <line x1="62" y1="66" x2="53" y2="55" stroke="#8B5CF6" strokeWidth="1.5" opacity="0.6"/>
+        </svg>
+      </motion.div>
+
+      {/* Robot head - middle left */}
+      <motion.div
+        animate={{ 
+          rotate: [-5, 5, -5],
+          y: [0, -15, 0]
+        }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-[45%] left-[2%] opacity-40"
+      >
+        <svg width="70" height="80" viewBox="0 0 70 80" fill="none">
+          <rect x="10" y="20" width="50" height="50" rx="8" fill="#E0E7FF" stroke="#6366F1" strokeWidth="2"/>
+          <circle cx="25" cy="40" r="6" fill="#3B82F6"/>
+          <circle cx="45" cy="40" r="6" fill="#3B82F6"/>
+          <rect x="25" y="55" width="20" height="4" rx="2" fill="#6366F1"/>
+          <line x1="35" y1="10" x2="35" y2="20" stroke="#6366F1" strokeWidth="2"/>
+          <circle cx="35" cy="8" r="4" fill="#93C5FD" stroke="#6366F1" strokeWidth="2"/>
+          <rect x="5" y="35" width="8" height="12" rx="2" fill="#C7D2FE" stroke="#6366F1" strokeWidth="1.5"/>
+          <rect x="57" y="35" width="8" height="12" rx="2" fill="#C7D2FE" stroke="#6366F1" strokeWidth="1.5"/>
+        </svg>
+      </motion.div>
+
+      {/* Data bits - bottom left */}
+      <motion.div
+        animate={{ 
+          y: [0, -20, 0],
+          opacity: [0.5, 0.8, 0.5]
+        }}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+        className="absolute bottom-[20%] left-[8%] opacity-50"
+      >
+        <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+          <text x="5" y="20" fill="#8B5CF6" fontSize="24" fontWeight="bold" fontFamily="monospace">01</text>
+          <text x="5" y="45" fill="#A78BFA" fontSize="24" fontWeight="bold" fontFamily="monospace">10</text>
+          <circle cx="50" cy="15" r="4" fill="#C084FC"/>
+          <circle cx="50" cy="40" r="4" fill="#DDD6FE"/>
+          <line x1="30" y1="15" x2="46" y2="15" stroke="#8B5CF6" strokeWidth="2" strokeDasharray="2 2"/>
+          <line x1="30" y1="40" x2="46" y2="40" stroke="#A78BFA" strokeWidth="2" strokeDasharray="2 2"/>
+        </svg>
+      </motion.div>
+
+      {/* CPU/Processor - top right area */}
+      <motion.div
+        animate={{ 
+          scale: [1, 1.1, 1],
+          rotate: [0, 360]
+        }}
+        transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+        className="absolute top-[15%] right-[5%] opacity-50"
+      >
+        <svg width="70" height="70" viewBox="0 0 70 70" fill="none">
+          <rect x="15" y="15" width="40" height="40" rx="3" fill="#DBEAFE" stroke="#3B82F6" strokeWidth="2"/>
+          <rect x="25" y="25" width="20" height="20" rx="2" fill="#60A5FA" stroke="#1E40AF" strokeWidth="1.5"/>
+          <line x1="5" y1="20" x2="15" y2="20" stroke="#3B82F6" strokeWidth="2"/>
+          <line x1="5" y1="30" x2="15" y2="30" stroke="#3B82F6" strokeWidth="2"/>
+          <line x1="5" y1="40" x2="15" y2="40" stroke="#3B82F6" strokeWidth="2"/>
+          <line x1="5" y1="50" x2="15" y2="50" stroke="#3B82F6" strokeWidth="2"/>
+          <line x1="55" y1="20" x2="65" y2="20" stroke="#3B82F6" strokeWidth="2"/>
+          <line x1="55" y1="30" x2="65" y2="30" stroke="#3B82F6" strokeWidth="2"/>
+          <line x1="55" y1="40" x2="65" y2="40" stroke="#3B82F6" strokeWidth="2"/>
+          <line x1="55" y1="50" x2="65" y2="50" stroke="#3B82F6" strokeWidth="2"/>
+        </svg>
+      </motion.div>
+
+      {/* AI sparkles/stars */}
+      <motion.div
+        animate={{ 
+          scale: [1, 1.3, 1],
+          opacity: [0.3, 0.7, 0.3],
+          rotate: [0, 180, 360]
+        }}
+        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-[25%] left-[20%]"
+      >
+        <svg width="25" height="25" viewBox="0 0 25 25" fill="none">
+          <path d="M 12.5 0 L 15 10 L 25 12.5 L 15 15 L 12.5 25 L 10 15 L 0 12.5 L 10 10 Z" fill="#06B6D4"/>
+        </svg>
+      </motion.div>
+
+      <motion.div
+        animate={{ 
+          scale: [1, 1.4, 1],
+          opacity: [0.4, 0.8, 0.4]
+        }}
+        transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
+        className="absolute bottom-[30%] right-[15%]"
+      >
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M 10 0 L 12 8 L 20 10 L 12 12 L 10 20 L 8 12 L 0 10 L 8 8 Z" fill="#8B5CF6"/>
+        </svg>
+      </motion.div>
+
+      {/* Machine learning graph - bottom right */}
+      <motion.div
+        animate={{ 
+          y: [0, -15, 0],
+          opacity: [0.5, 0.7, 0.5]
+        }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
+        className="absolute bottom-[15%] right-[3%] opacity-50"
+      >
+        <svg width="90" height="70" viewBox="0 0 90 70" fill="none">
+          <rect x="5" y="5" width="80" height="60" rx="4" fill="#F0F9FF" stroke="#0EA5E9" strokeWidth="2"/>
+          <polyline points="15,50 25,40 35,45 45,25 55,30 65,15 75,20" stroke="#06B6D4" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
+          <circle cx="15" cy="50" r="3" fill="#0EA5E9"/>
+          <circle cx="25" cy="40" r="3" fill="#0EA5E9"/>
+          <circle cx="35" cy="45" r="3" fill="#0EA5E9"/>
+          <circle cx="45" cy="25" r="3" fill="#06B6D4"/>
+          <circle cx="55" cy="30" r="3" fill="#06B6D4"/>
+          <circle cx="65" cy="15" r="3" fill="#06B6D4"/>
+          <circle cx="75" cy="20" r="3" fill="#0EA5E9"/>
+        </svg>
+      </motion.div>
+
+      {/* Circuit pattern - middle right */}
+      <motion.div
+        animate={{ 
+          opacity: [0.3, 0.6, 0.3]
+        }}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        className="absolute top-[55%] right-[8%] opacity-45"
+      >
+        <svg width="70" height="70" viewBox="0 0 70 70" fill="none">
+          <circle cx="35" cy="35" r="8" fill="#C084FC" stroke="#8B5CF6" strokeWidth="2"/>
+          <circle cx="15" cy="15" r="5" fill="#DDD6FE" stroke="#A78BFA" strokeWidth="1.5"/>
+          <circle cx="55" cy="15" r="5" fill="#DDD6FE" stroke="#A78BFA" strokeWidth="1.5"/>
+          <circle cx="15" cy="55" r="5" fill="#DDD6FE" stroke="#A78BFA" strokeWidth="1.5"/>
+          <circle cx="55" cy="55" r="5" fill="#DDD6FE" stroke="#A78BFA" strokeWidth="1.5"/>
+          <path d="M 20 15 L 27 28" stroke="#8B5CF6" strokeWidth="2"/>
+          <path d="M 50 15 L 43 28" stroke="#8B5CF6" strokeWidth="2"/>
+          <path d="M 20 55 L 27 42" stroke="#8B5CF6" strokeWidth="2"/>
+          <path d="M 50 55 L 43 42" stroke="#8B5CF6" strokeWidth="2"/>
+          <rect x="30" y="10" width="10" height="6" rx="1" fill="#A78BFA"/>
+          <rect x="10" y="30" width="6" height="10" rx="1" fill="#A78BFA"/>
+          <rect x="54" y="30" width="6" height="10" rx="1" fill="#A78BFA"/>
+          <rect x="30" y="54" width="10" height="6" rx="1" fill="#A78BFA"/>
+        </svg>
+      </motion.div>
+    </div>
+
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 lg:py-40 relative z-10">
+      <div className="max-w-4xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-center md:text-left"
+          className="text-center"
         >
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold text-deepIndigo-900 leading-tight">
-            Where Creativity <br /> Finds Its Voice.
+            Yapay Zeka ile <br /> Geleceği Keşfet.
           </h1>
-          <p className="mt-6 text-lg md:text-xl max-w-lg mx-auto md:mx-0 text-deepIndigo-900/80">
-            Welcome to ScribbleCast, the podcast that colors outside the lines. Join us as we explore the whimsical world of design, art, and creative thinking.
+          <p className="mt-6 text-lg md:text-xl max-w-2xl mx-auto text-deepIndigo-900/80">
+            Nöral Notlar'a hoş geldiniz! Yapay zeka, makine öğrenimi ve teknolojinin geleceğini anlatan podcast. AI'nın büyülü dünyasını birlikte keşfedelim.
           </p>
-          <div className="mt-8 flex flex-col sm:flex-row justify-center md:justify-start gap-4">
+          <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
             <Button asChild size="lg" className="bg-deepIndigo-900 text-offWhite hover:bg-deepIndigo-800 transition-all duration-300 transform hover:scale-105 shadow-lg px-6 py-6 text-lg">
               <a href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer">
                 <SpotifyIcon className="mr-2 h-6 w-6" />
-                Listen on Spotify
+                Spotify'da Dinle
               </a>
             </Button>
             <Button asChild size="lg" className="bg-deepIndigo-900 text-offWhite hover:bg-deepIndigo-800 transition-all duration-300 transform hover:scale-105 shadow-lg px-6 py-6 text-lg">
@@ -109,15 +332,6 @@ const HeroSection = () => (
             </Button>
           </div>
         </motion.div>
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="relative"
-        >
-          <div className="absolute -inset-4 bg-offWhite/30 rounded-full blur-2xl animate-pulse"></div>
-          <AIIllustrationIcon className="relative w-64 h-64 lg:w-80 lg:h-80 mx-auto text-deepIndigo-900 animate-float" />
-        </motion.div>
       </div>
     </div>
   </section>
@@ -126,7 +340,7 @@ const PodcastPlatforms = () => (
   <div className="py-12 bg-amber-600">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12">
-        <p className="text-lg font-semibold text-offWhite">Listen and subscribe on:</p>
+        <p className="text-lg font-semibold text-offWhite">Dinle ve abone ol:</p>
         <div className="flex items-center gap-8">
           <a href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer" className="text-offWhite hover:text-deepIndigo-200 transition-colors"><SpotifyIcon className="w-10 h-10" /></a>
           <a href="https://podcasts.apple.com/" target="_blank" rel="noopener noreferrer" className="text-offWhite hover:text-deepIndigo-200 transition-colors"><ApplePodcastsIcon className="w-10 h-10" /></a>
@@ -139,9 +353,9 @@ const EpisodesSection = () => (
   <section id="episodes" className="bg-offWhite text-deepIndigo-900">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
       <div className="text-center">
-        <h2 className="text-4xl md:text-5xl font-display font-bold">Latest Episodes</h2>
+        <h2 className="text-4xl md:text-5xl font-display font-bold">Son Bölümler</h2>
         <p className="mt-4 text-lg text-deepIndigo-900/70 max-w-2xl mx-auto">
-          Catch up on our recent conversations. There's always something new to discover.
+          Yapay zeka dünyasındaki en son gelişmeleri ve derin teknoloji sohbetlerini kaçırma.
         </p>
       </div>
       <div className="mt-12 max-w-3xl mx-auto flex flex-col gap-8">
@@ -170,7 +384,7 @@ const EpisodesSection = () => (
                     variant="ghost"
                     size="icon"
                     className="rounded-full text-deepIndigo-900 hover:bg-amber-100"
-                    onClick={() => toast.info('Playing episode!', { description: `${episode.title}` })}
+                    onClick={() => toast.info('Bölüm oynatılıyor!', { description: `${episode.title}` })}
                   >
                     <PlayCircle className="w-8 h-8" />
                   </Button>
@@ -192,14 +406,14 @@ const NewsletterSection = ({ email, setEmail, onSubmit }: NewsletterSectionProps
   <section id="subscribe" className="bg-deepIndigo-900 text-offWhite">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
       <div className="max-w-xl mx-auto text-center">
-        <h2 className="text-4xl md:text-5xl font-display font-bold">Never Miss a Doodle</h2>
+        <h2 className="text-4xl md:text-5xl font-display font-bold">Hiçbir Nöral Notu Kaçırma</h2>
         <p className="mt-4 text-lg text-offWhite/80">
-          Subscribe to our newsletter for behind-the-scenes content, episode announcements, and creative prompts delivered right to your inbox.
+          AI haberleri, bölüm duyuruları ve yapay zeka dünyasındaki yenilikler için bültenimize abone ol. Doğrudan gelen kutuna gelsin.
         </p>
         <form onSubmit={onSubmit} className="mt-8 flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
           <Input
             type="email"
-            placeholder="your.email@example.com"
+            placeholder="senin.emailin@ornek.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="flex-grow bg-deepIndigo-800 border-deepIndigo-700 text-offWhite placeholder:text-offWhite/50 focus:ring-amber-500 h-14 text-lg"
@@ -207,7 +421,7 @@ const NewsletterSection = ({ email, setEmail, onSubmit }: NewsletterSectionProps
           />
           <Button type="submit" size="lg" className="bg-amber-500 text-deepIndigo-900 hover:bg-amber-400 h-14 text-lg font-bold">
             <Send className="mr-2 h-5 w-5" />
-            Subscribe
+            Abone Ol
           </Button>
         </form>
       </div>
@@ -215,21 +429,174 @@ const NewsletterSection = ({ email, setEmail, onSubmit }: NewsletterSectionProps
   </section>
 );
 const Footer = () => (
-  <footer className="bg-deepIndigo-950 text-offWhite/70">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <footer className="relative bg-deepIndigo-950 text-offWhite/70 overflow-hidden">
+    {/* Decorative floating elements */}
+    <div className="absolute inset-0 pointer-events-none">
+      {/* Small balloon - left */}
+      <motion.div
+        animate={{ 
+          y: [0, -25, 0],
+          rotate: [-3, 3, -3]
+        }}
+        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute bottom-10 left-[8%] opacity-30"
+      >
+        <svg width="50" height="65" viewBox="0 0 50 65" fill="none">
+          <ellipse cx="25" cy="22" rx="22" ry="28" fill="#C4B5FD" stroke="#A78BFA" strokeWidth="1.5"/>
+          <path d="M 25 22 Q 22 25, 25 28 Q 28 25, 25 22" fill="#DDD6FE" opacity="0.5"/>
+          <line x1="25" y1="50" x2="25" y2="57" stroke="#A78BFA" strokeWidth="1.5"/>
+          <line x1="15" y1="45" x2="18" y2="52" stroke="#A78BFA" strokeWidth="1.5"/>
+          <line x1="35" y1="45" x2="32" y2="52" stroke="#A78BFA" strokeWidth="1.5"/>
+          <rect x="19" y="57" width="12" height="6" rx="1.5" fill="#EDE9FE" stroke="#A78BFA" strokeWidth="1.5"/>
+        </svg>
+      </motion.div>
+
+      {/* Star - top left */}
+      <motion.div
+        animate={{ 
+          scale: [1, 1.3, 1],
+          opacity: [0.2, 0.5, 0.2],
+          rotate: [0, 180, 360]
+        }}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-8 left-[15%]"
+      >
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M 10 0 L 12 8 L 20 10 L 12 12 L 10 20 L 8 12 L 0 10 L 8 8 Z" fill="#FCD34D"/>
+        </svg>
+      </motion.div>
+
+      {/* Music note - right */}
+      <motion.div
+        animate={{ 
+          y: [0, -15, 0],
+          rotate: [0, -8, 0]
+        }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        className="absolute top-12 right-[12%] opacity-25"
+      >
+        <svg width="35" height="50" viewBox="0 0 35 50" fill="none">
+          <ellipse cx="10" cy="42" rx="8" ry="6" fill="#C084FC" stroke="#A78BFA" strokeWidth="1.5"/>
+          <rect x="17" y="14" width="3" height="30" fill="#A78BFA" rx="1.5"/>
+          <path d="M 20 14 Q 28 10, 32 14 L 32 25 Q 28 21, 20 25 Z" fill="#EDE9FE" stroke="#A78BFA" strokeWidth="1"/>
+        </svg>
+      </motion.div>
+
+      {/* Small cloud - center right */}
+      <motion.div
+        animate={{ 
+          x: [0, 15, 0],
+          y: [0, -8, 0]
+        }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+        className="absolute bottom-16 right-[25%] opacity-20"
+      >
+        <svg width="70" height="35" viewBox="0 0 70 35" fill="none">
+          <ellipse cx="18" cy="20" rx="15" ry="12" fill="#DDD6FE"/>
+          <ellipse cx="35" cy="17" rx="18" ry="15" fill="#C4B5FD"/>
+          <ellipse cx="52" cy="20" rx="15" ry="12" fill="#DDD6FE"/>
+        </svg>
+      </motion.div>
+
+      {/* Sparkle - bottom right */}
+      <motion.div
+        animate={{ 
+          scale: [1, 1.4, 1],
+          opacity: [0.3, 0.6, 0.3]
+        }}
+        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
+        className="absolute bottom-20 right-[8%]"
+      >
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M 9 0 L 10.5 7.5 L 18 9 L 10.5 10.5 L 9 18 L 7.5 10.5 L 0 9 L 7.5 7.5 Z" fill="#FCA5A5"/>
+        </svg>
+      </motion.div>
+
+      {/* Microphone icon - left side */}
+      <motion.div
+        animate={{ 
+          y: [0, -12, 0],
+          rotate: [0, 5, 0]
+        }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
+        className="absolute top-10 left-[35%] opacity-25"
+      >
+        <svg width="30" height="40" viewBox="0 0 30 40" fill="none">
+          <ellipse cx="15" cy="12" rx="8" ry="10" fill="#A78BFA" stroke="#8B5CF6" strokeWidth="1.5"/>
+          <line x1="15" y1="22" x2="15" y2="30" stroke="#8B5CF6" strokeWidth="2"/>
+          <path d="M 10 22 Q 15 24, 20 22" stroke="#8B5CF6" strokeWidth="1.5" fill="none"/>
+          <ellipse cx="15" cy="30" rx="6" ry="2" fill="#8B5CF6" opacity="0.7"/>
+        </svg>
+      </motion.div>
+
+      {/* Headphone - right side */}
+      <motion.div
+        animate={{ 
+          rotate: [-4, 4, -4],
+          y: [0, -10, 0]
+        }}
+        transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        className="absolute bottom-24 right-[40%] opacity-20"
+      >
+        <svg width="50" height="50" viewBox="0 0 50 50" fill="none">
+          <path d="M 12 25 Q 12 10, 25 8 Q 38 10, 38 25" stroke="#C4B5FD" strokeWidth="2.5" strokeLinecap="round" fill="none"/>
+          <rect x="8" y="22" width="7" height="12" rx="3.5" fill="#DDD6FE" stroke="#C4B5FD" strokeWidth="1.5"/>
+          <rect x="35" y="22" width="7" height="12" rx="3.5" fill="#DDD6FE" stroke="#C4B5FD" strokeWidth="1.5"/>
+        </svg>
+      </motion.div>
+
+      {/* Vinyl record - small */}
+      <motion.div
+        animate={{ 
+          rotate: [0, 360],
+          scale: [1, 1.08, 1]
+        }}
+        transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+        className="absolute top-16 right-[20%] opacity-20"
+      >
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+          <circle cx="20" cy="20" r="19" fill="#4C1D95" stroke="#7C3AED" strokeWidth="1.5"/>
+          <circle cx="20" cy="20" r="14" fill="#2E1065" opacity="0.8"/>
+          <circle cx="20" cy="20" r="9" fill="#4C1D95"/>
+          <circle cx="20" cy="20" r="5" fill="#FCD34D"/>
+          <circle cx="20" cy="20" r="2.5" fill="#2E1065"/>
+        </svg>
+      </motion.div>
+    </div>
+
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
       <div className="flex flex-col md:flex-row justify-between items-center gap-8">
         <div className="flex items-center gap-2">
-          <ScribbleIcon className="w-6 h-6" />
-          <span className="text-xl font-display font-bold text-offWhite">ScribbleCast</span>
+          <svg 
+            width="24" 
+            height="24" 
+            viewBox="0 0 32 32" 
+            fill="none" 
+            className="w-6 h-6"
+          >
+            {/* Not defteri */}
+            <rect x="6" y="2" width="20" height="28" rx="2" fill="#8B5CF6" stroke="#7C3AED" strokeWidth="1.5"/>
+            {/* Spiral delikler */}
+            <circle cx="10" cy="5" r="1.5" fill="#FCD34D"/>
+            <circle cx="16" cy="5" r="1.5" fill="#FCD34D"/>
+            <circle cx="22" cy="5" r="1.5" fill="#FCD34D"/>
+            {/* Çizgiler/notlar */}
+            <line x1="10" y1="12" x2="22" y2="12" stroke="#DDD6FE" strokeWidth="1.5" strokeLinecap="round"/>
+            <line x1="10" y1="16" x2="22" y2="16" stroke="#DDD6FE" strokeWidth="1.5" strokeLinecap="round"/>
+            <line x1="10" y1="20" x2="18" y2="20" stroke="#DDD6FE" strokeWidth="1.5" strokeLinecap="round"/>
+            <line x1="10" y1="24" x2="20" y2="24" stroke="#DDD6FE" strokeWidth="1.5" strokeLinecap="round"/>
+          </svg>
+          <span className="text-xl font-display font-bold text-offWhite">Nöral Notlar</span>
         </div>
-        <div className="flex items-center gap-6">
-          <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer" className="hover:text-amber-500 transition-colors"><TwitterIcon className="w-6 h-6" /></a>
-          <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" className="hover:text-amber-500 transition-colors"><InstagramIcon className="w-6 h-6" /></a>
-        </div>
+        <img 
+          src="/src/assets/noral-notlar-logo.png" 
+          alt="Nöral Notlar Logo" 
+          className="w-[100px] h-[100px] object-contain opacity-80 hover:opacity-100 transition-opacity"
+        />
       </div>
       <div className="mt-8 text-center text-sm border-t border-deepIndigo-800 pt-8">
-        <p>&copy; {new Date().getFullYear()} ScribbleCast. All Rights Reserved.</p>
-        <p className="mt-2">Built with ❤️ at Cloudflare</p>
+        <p>&copy; {new Date().getFullYear()} Nöral Notlar. Tüm Hakları Saklıdır.</p>
+        <p className="mt-2">Cloudflare'de ❤️ ile yapıldı</p>
       </div>
     </div>
   </footer>
