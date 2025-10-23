@@ -13,5 +13,12 @@
 	},
 	"observability": {
 		"enabled": true
-	}
+	},
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "noral-notlar",
+			"database_id": "91a16f8a-79fa-496c-8168-fb171cdbae4f"
+		}
+	]
 }

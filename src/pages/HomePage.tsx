@@ -1,60 +1,64 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Toaster } from '@/components/ui/sonner';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
-import { PlayCircle, Send, Radio } from 'lucide-react';
+import { Play, PlayCircle, Send, Radio, Clock, Calendar } from 'lucide-react';
 import { AIIllustrationIcon, ApplePodcastsIcon, InstagramIcon, ScribbleIcon, SpotifyIcon, TwitterIcon } from '@/components/Icons';
-const episodes = [
-  {
-    id: 1,
-    title: 'ChatGPT ve Dil Modelleri',
-    description: 'Büyük dil modellerinin nasıl çalıştığını, GPT-4\'ün yeteneklerini ve yapay zekanın dil anlama konusundaki gelişimini keşfediyoruz.',
-    duration: '45 dk',
-    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=400&h=400&auto=format&fit=crop',
-  },
-  {
-    id: 2,
-    title: 'Makine Öğrenimi Temelleri',
-    description: 'Yapay zekanın temellerinden neural networklere, algoritmaların nasıl öğrendiğini ve tahmin yaptığını anlıyoruz.',
-    duration: '52 dk',
-    image: 'https://images.unsplash.com/photo-1655720828018-edd2daec9349?q=80&w=400&h=400&auto=format&fit=crop',
-  },
-  {
-    id: 3,
-    title: 'AI ve Etik: Geleceğin Soruları',
-    description: 'Yapay zekanın toplum üzerindeki etkileri, etik sorunlar ve AI güvenliği üzerine derin bir sohbet.',
-    duration: '38 dk',
-    image: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=400&h=400&auto=format&fit=crop',
-  },
-];
+import { fetchPodcastFeed, Episode } from '@/lib/rss';
+import { AudioPlayer } from '@/components/AudioPlayer';
+import { NewsletterForm } from '@/components/NewsletterForm';
 export function HomePage() {
-  const [email, setEmail] = useState('');
-  const handleNewsletterSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email && /^\S+@\S+\.\S+$/.test(email)) {
-      toast.success("Listedesiniz!", {
-        description: "Nöral Notlar'a abone olduğunuz için teşekkürler. Yakında gelen kutunuzda olacağız.",
-      });
-      setEmail('');
-    } else {
-      toast.error('Hata!', {
-        description: 'Lütfen geçerli bir e-posta adresi girin.',
-      });
-    }
+  const [episodes, setEpisodes] = useState<Episode[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [currentEpisode, setCurrentEpisode] = useState<Episode | null>(null);
+
+  // RSS Feed'den bölümleri yükle
+  useEffect(() => {
+    const loadEpisodes = async () => {
+      try {
+        setLoading(true);
+        const feed = await fetchPodcastFeed();
+        setEpisodes(feed.episodes);
+      } catch (error) {
+        console.error('Episodes loading error:', error);
+        toast.error('Bölümler yüklenemedi', {
+          description: 'RSS Feed\'den bölümler alınırken bir hata oluştu.'
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadEpisodes();
+  }, []);
+
+  const handlePlayEpisode = (episode: Episode) => {
+    setCurrentEpisode(episode);
+  };
+
+  const handleClosePlayer = () => {
+    setCurrentEpisode(null);
   };
   return (
     <div className="bg-amber-500 text-deepIndigo-900 font-sans overflow-x-hidden">
       <Header />
-      <main>
+      <main className="pb-24">
         <HeroSection />
         <PodcastPlatforms />
-        <EpisodesSection />
-        <NewsletterSection email={email} setEmail={setEmail} onSubmit={handleNewsletterSubmit} />
+        <EpisodesSection loading={loading} episodes={episodes} onPlayEpisode={handlePlayEpisode} />
+        <section className="py-16 md:py-24 bg-deepIndigo-900">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-md mx-auto">
+              <NewsletterForm />
+            </div>
+          </div>
+        </section>
       </main>
       <Footer />
+      <AudioPlayer episode={currentEpisode} onClose={handleClosePlayer} />
       <Toaster richColors closeButton />
     </div>
   );
@@ -349,7 +353,11 @@ const PodcastPlatforms = () => (
     </div>
   </div>
 );
-const EpisodesSection = () => (
+const EpisodesSection = ({ loading, episodes, onPlayEpisode }: {
+  loading: boolean;
+  episodes: Episode[];
+  onPlayEpisode: (episode: Episode) => void;
+}) => (
   <section id="episodes" className="bg-offWhite text-deepIndigo-900">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
       <div className="text-center">
@@ -358,72 +366,110 @@ const EpisodesSection = () => (
           Yapay zeka dünyasındaki en son gelişmeleri ve derin teknoloji sohbetlerini kaçırma.
         </p>
       </div>
-      <div className="mt-12 max-w-3xl mx-auto flex flex-col gap-8">
-        {episodes.map((episode, index) => (
-          <motion.div
-            key={episode.id}
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-          >
-            <Card className="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col sm:flex-row items-center">
-              <div className="w-full sm:w-48 flex-shrink-0">
-                <img src={episode.image} alt={episode.title} className="w-full h-48 sm:h-full object-cover" />
+
+      <div className="mt-12 max-w-3xl mx-auto">
+        {loading ? (
+          // Loading state
+          <div className="flex flex-col gap-8">
+            {[1, 2, 3].map((index) => (
+              <div key={index} className="animate-pulse">
+                <div className="bg-white rounded-xl shadow-md overflow-hidden flex flex-col sm:flex-row items-center">
+                  <div className="w-full sm:w-48 h-48 bg-gray-200"></div>
+                  <div className="flex flex-col flex-grow p-6 space-y-4">
+                    <div className="h-8 bg-gray-200 rounded w-3/4"></div>
+                    <div className="space-y-2">
+                      <div className="h-4 bg-gray-200 rounded"></div>
+                      <div className="h-4 bg-gray-200 rounded w-5/6"></div>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <div className="h-4 bg-gray-200 rounded w-20"></div>
+                      <div className="h-10 w-10 bg-gray-200 rounded-full"></div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="flex flex-col flex-grow p-6">
-                <CardHeader className="p-0">
-                  <CardTitle className="text-2xl font-bold">{episode.title}</CardTitle>
-                </CardHeader>
-                <CardContent className="p-0 pt-2 flex-grow">
-                  <p className="text-deepIndigo-900/80">{episode.description}</p>
-                </CardContent>
-                <CardFooter className="p-0 pt-4 flex justify-between items-center">
-                  <span className="text-sm font-medium text-deepIndigo-900/60">{episode.duration}</span>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="rounded-full text-deepIndigo-900 hover:bg-amber-100"
-                    onClick={() => toast.info('Bölüm oynatılıyor!', { description: `${episode.title}` })}
-                  >
-                    <PlayCircle className="w-8 h-8" />
-                  </Button>
-                </CardFooter>
-              </div>
-            </Card>
-          </motion.div>
-        ))}
-      </div>
-    </div>
-  </section>
-);
-interface NewsletterSectionProps {
-  email: string;
-  setEmail: (email: string) => void;
-  onSubmit: (e: React.FormEvent) => void;
-}
-const NewsletterSection = ({ email, setEmail, onSubmit }: NewsletterSectionProps) => (
-  <section id="subscribe" className="bg-deepIndigo-900 text-offWhite">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-      <div className="max-w-xl mx-auto text-center">
-        <h2 className="text-4xl md:text-5xl font-display font-bold">Hiçbir Nöral Notu Kaçırma</h2>
-        <p className="mt-4 text-lg text-offWhite/80">
-          AI haberleri, bölüm duyuruları ve yapay zeka dünyasındaki yenilikler için bültenimize abone ol. Doğrudan gelen kutuna gelsin.
-        </p>
-        <form onSubmit={onSubmit} className="mt-8 flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-          <Input
-            type="email"
-            placeholder="senin.emailin@ornek.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="flex-grow bg-deepIndigo-800 border-deepIndigo-700 text-offWhite placeholder:text-offWhite/50 focus:ring-amber-500 h-14 text-lg"
-            required
-          />
-          <Button type="submit" size="lg" className="bg-amber-500 text-deepIndigo-900 hover:bg-amber-400 h-14 text-lg font-bold">
-            <Send className="mr-2 h-5 w-5" />
-            Abone Ol
-          </Button>
-        </form>
+            ))}
+          </div>
+        ) : episodes.length > 0 ? (
+          // Episodes loaded
+          <div className="flex flex-col gap-8">
+            {episodes.map((episode, index) => (
+              <motion.div
+                key={episode.guid || index}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
+                <Card className="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col sm:flex-row items-center">
+                  <div className="w-full sm:w-48 flex-shrink-0 mx-4">
+                    <img
+                      src={episode.iTunes?.image || '/src/assets/noral-notlar-logo.png'}
+                      alt={episode.title}
+                      className="w-full h-48 sm:h-full object-cover rounded-lg"
+                      onError={(e) => {
+                        console.log('Image failed to load:', episode.iTunes?.image);
+                        const target = e.target as HTMLImageElement;
+                        target.src = '/src/assets/noral-notlar-logo.png';
+                      }}
+                      onLoad={(e) => {
+                        console.log('Image loaded successfully:', episode.iTunes?.image);
+                      }}
+                    />
+                  </div>
+                  <div className="flex flex-col flex-grow p-6">
+                    <CardHeader className="p-0">
+                      <CardTitle className="text-2xl font-bold">{episode.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-0 pt-2 flex-grow">
+                      <p className="text-deepIndigo-900/80 mb-3">{episode.description}</p>
+                      <div className="flex items-center gap-4 text-sm text-deepIndigo-900/60">
+                        {episode.iTunes?.duration && (
+                          <div className="flex items-center gap-1">
+                            <Clock className="w-4 h-4" />
+                            <span>{episode.iTunes.duration}</span>
+                          </div>
+                        )}
+                        {episode.pubDate && (
+                          <div className="flex items-center gap-1">
+                            <Calendar className="w-4 h-4" />
+                            <span>{new Date(episode.pubDate).toLocaleDateString('tr-TR')}</span>
+                          </div>
+                        )}
+                      </div>
+                    </CardContent>
+                    <CardFooter className="p-0 pt-4 flex justify-between items-center">
+                      <span className="text-sm font-medium text-deepIndigo-900/60">
+                        {episode.iTunes?.duration || 'Podcast Bölümü'}
+                      </span>
+                      <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                        <Button
+                          size="lg"
+                          className="bg-amber-500 hover:bg-amber-400 text-deepIndigo-900 font-semibold h-12 px-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+                          onClick={() => onPlayEpisode(episode)}
+                        >
+                          <Play className="w-5 h-5 mr-2" />
+                          Dinle
+                        </Button>
+                      </motion.div>
+                    </CardFooter>
+                  </div>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        ) : (
+          // No episodes found
+          <div className="text-center py-12">
+            <Radio className="w-16 h-16 mx-auto text-deepIndigo-900/30 mb-4" />
+            <h3 className="text-xl font-semibold text-deepIndigo-900 mb-2">
+              Henüz Bölüm Bulunamadı
+            </h3>
+            <p className="text-deepIndigo-900/70">
+              RSS Feed'den bölümler yüklenirken bir sorun oluştu. Lütfen daha sonra tekrar deneyin.
+            </p>
+          </div>
+        )}
       </div>
     </div>
   </section>
