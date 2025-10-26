@@ -86,7 +86,17 @@ export async function fetchPodcastFeed(): Promise<PodcastFeed> {
 
     // allorigins.win denemesi
     try {
-      const response1 = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(RSS_URL)}`);
+      const cacheBuster = Date.now();
+      const response1 = await fetch(
+        `https://api.allorigins.win/get?url=${encodeURIComponent(RSS_URL)}&timestamp=${cacheBuster}`,
+        {
+          // cache-stale responses at the proxy were causing outdated episodes to appear
+          cache: 'no-store',
+          headers: {
+            'Cache-Control': 'no-cache',
+          },
+        }
+      );
       if (response1.ok) {
         const data = await response1.json();
         xmlText = data.contents;

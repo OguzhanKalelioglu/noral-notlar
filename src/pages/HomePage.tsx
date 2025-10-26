@@ -49,9 +49,9 @@ export function HomePage() {
         <HeroSection />
         <PodcastPlatforms />
         <EpisodesSection loading={loading} episodes={episodes} onPlayEpisode={handlePlayEpisode} />
-        <section className="py-16 md:py-24 bg-deepIndigo-900">
+        <section id="subscribe" className="py-24 md:py-32 bg-deepIndigo-900">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="max-w-md mx-auto">
+            <div className="max-w-2xl mx-auto">
               <NewsletterForm />
             </div>
           </div>
@@ -95,7 +95,7 @@ const Header = () => (
         </nav>
         <div className="flex items-center gap-2 bg-deepIndigo-900/10 rounded-full p-1">
           <a 
-            href="https://open.spotify.com/" 
+            href="https://open.spotify.com/show/7FP1bUx3o5FL64v9L2zJ5G" 
             target="_blank" 
             rel="noopener noreferrer"
             className="p-2 rounded-full hover:bg-deepIndigo-900 text-deepIndigo-900 hover:text-offWhite transition-all duration-300 group"
@@ -103,9 +103,9 @@ const Header = () => (
           >
             <SpotifyIcon className="w-5 h-5" />
           </a>
-          <a 
-            href="https://podcasts.apple.com/" 
-            target="_blank" 
+          <a
+            href="https://podcasts.apple.com/us/podcast/n%C3%B6ral-notlar/id1847726825"
+            target="_blank"
             rel="noopener noreferrer"
             className="p-2 rounded-full hover:bg-deepIndigo-900 text-deepIndigo-900 hover:text-offWhite transition-all duration-300 group"
             title="Apple Podcasts'te Dinle"
@@ -323,13 +323,13 @@ const HeroSection = () => (
           </p>
           <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
             <Button asChild size="lg" className="bg-deepIndigo-900 text-offWhite hover:bg-deepIndigo-800 transition-all duration-300 transform hover:scale-105 shadow-lg px-6 py-6 text-lg">
-              <a href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer">
+              <a href="https://open.spotify.com/show/7FP1bUx3o5FL64v9L2zJ5G" target="_blank" rel="noopener noreferrer">
                 <SpotifyIcon className="mr-2 h-6 w-6" />
                 Spotify'da Dinle
               </a>
             </Button>
             <Button asChild size="lg" className="bg-deepIndigo-900 text-offWhite hover:bg-deepIndigo-800 transition-all duration-300 transform hover:scale-105 shadow-lg px-6 py-6 text-lg">
-              <a href="https://podcasts.apple.com/" target="_blank" rel="noopener noreferrer">
+              <a href="https://podcasts.apple.com/us/podcast/n%C3%B6ral-notlar/id1847726825" target="_blank" rel="noopener noreferrer">
                 <ApplePodcastsIcon className="mr-2 h-6 w-6" />
                 Apple Podcasts
               </a>
@@ -346,8 +346,8 @@ const PodcastPlatforms = () => (
       <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12">
         <p className="text-lg font-semibold text-offWhite">Dinle ve abone ol:</p>
         <div className="flex items-center gap-8">
-          <a href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer" className="text-offWhite hover:text-deepIndigo-200 transition-colors"><SpotifyIcon className="w-10 h-10" /></a>
-          <a href="https://podcasts.apple.com/" target="_blank" rel="noopener noreferrer" className="text-offWhite hover:text-deepIndigo-200 transition-colors"><ApplePodcastsIcon className="w-10 h-10" /></a>
+          <a href="https://open.spotify.com/show/7FP1bUx3o5FL64v9L2zJ5G" target="_blank" rel="noopener noreferrer" className="text-offWhite hover:text-deepIndigo-200 transition-colors"><SpotifyIcon className="w-10 h-10" /></a>
+          <a href="https://podcasts.apple.com/us/podcast/n%C3%B6ral-notlar/id1847726825" target="_blank" rel="noopener noreferrer" className="text-offWhite hover:text-deepIndigo-200 transition-colors"><ApplePodcastsIcon className="w-10 h-10" /></a>
         </div>
       </div>
     </div>

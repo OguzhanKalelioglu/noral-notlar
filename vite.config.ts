@@ -88,8 +88,15 @@ function watchDependenciesPlugin() {
 // https://vite.dev/config/
 export default ({ mode }: { mode: string }) => {
   const env = loadEnv(mode, process.cwd());
+  const isDev = mode === 'development';
+  const plugins = [react(), watchDependenciesPlugin()];
+
+  if (!isDev || env.VITE_ENABLE_CLOUDFLARE_PLUGIN === 'true') {
+    plugins.push(cloudflare());
+  }
+
   return defineConfig({
-    plugins: [react(), cloudflare(), watchDependenciesPlugin()],
+    plugins,
     build: {
       minify: true,
       sourcemap: "inline", // Use inline source maps for better error reporting
@@ -105,6 +112,8 @@ export default ({ mode }: { mode: string }) => {
       devSourcemap: true,
     },
     server: {
+      host: '127.0.0.1',
+      port: 5173,
       allowedHosts: true,
     },
     resolve: {
