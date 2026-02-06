@@ -8,9 +8,16 @@
 	"main": "worker/index.ts",
 	"compatibility_date": "2025-04-24",
 	"assets": {
+		"directory": "./dist",
 		"not_found_handling": "single-page-application",
 		"run_worker_first": ["/api/*", "!/api/docs/*"]
 	},
+	"send_email": [
+		{
+			"name": "SEND_EMAIL",
+			"destination_address": "oguzhankalelioglu@icloud.com"
+		}
+	],
 	"observability": {
 		"enabled": true
 	},

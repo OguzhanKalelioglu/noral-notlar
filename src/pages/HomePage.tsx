@@ -90,6 +90,9 @@ const Header = () => (
           <span className="text-2xl font-display font-bold">Nöral Notlar</span>
         </a>
         <nav className="hidden md:flex items-center space-x-8">
+          <a href="/radar" className="font-semibold hover:text-offWhite transition-colors flex items-center gap-1">
+            <Radio className="w-4 h-4" /> Radar
+          </a>
           <a href="#episodes" className="font-semibold hover:text-offWhite transition-colors">Bölümler</a>
           <a href="#subscribe" className="font-semibold hover:text-offWhite transition-colors">Abone Ol</a>
         </nav>

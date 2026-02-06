@@ -1,0 +1,11 @@
+name = "noral-notlar"
+main = "worker/index.ts"
+compatibility_date = "2024-04-03"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "noral-notlar"
+database_id = "91a16f8a-79fa-496c-8168-fb171cdbae4f"
+
+[observability]
+enabled = true
