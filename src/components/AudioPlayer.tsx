@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Slider } from '@/components/ui/slider';
 import { Play, Pause, SkipBack, SkipForward, Volume2, X } from 'lucide-react';
 import { Episode } from '@/lib/rss';
+import { PODCAST_FALLBACK_IMAGE } from '@/lib/assets';
 
 interface AudioPlayerProps {
   episode: Episode | null;
@@ -166,7 +167,7 @@ export function AudioPlayer({ episode, onClose }: AudioPlayerProps) {
                 {/* Episode Image */}
                 <div className="flex-shrink-0">
                   <img
-                    src={episode.iTunes?.image || '/src/assets/noral-notlar-logo.png'}
+                    src={episode.iTunes?.image || PODCAST_FALLBACK_IMAGE}
                     alt={episode.title}
                     className="w-16 h-16 rounded-xl object-cover shadow-lg"
                   />

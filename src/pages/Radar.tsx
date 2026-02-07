@@ -14,7 +14,8 @@ import {
   DialogTrigger,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { ExternalLink, Mic, RefreshCw, Zap, Flame, Newspaper, Calendar, ArrowRight, ArrowLeft, CheckCircle, Send } from 'lucide-react';
+import { Mic, RefreshCw, Zap, Flame, Newspaper, Calendar, ArrowRight, ArrowLeft, CheckCircle, Send } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Toaster, toast } from '@/components/ui/sonner';
 
 interface RadarItem {
@@ -183,8 +184,8 @@ export default function Radar() {
   return (
     <div className="min-h-screen bg-white text-slate-900 selection:bg-indigo-100 selection:text-indigo-900 font-sans">
       <div className="fixed inset-0 overflow-hidden pointer-events-none opacity-30">
-        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-indigo-100 rounded-full blur-[150px]" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-amber-50 rounded-full blur-[150px]" />
+        <div className="absolute top-[-10%] left-[-10%] h-[50%] w-[50%] rounded-full bg-indigo-100 blur-[90px] md:blur-[150px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] h-[50%] w-[50%] rounded-full bg-amber-50 blur-[90px] md:blur-[150px]" />
       </div>
 
       <div className="container mx-auto py-12 md:py-20 px-4 max-w-7xl relative z-10">
@@ -203,10 +204,10 @@ export default function Radar() {
           </div>
           <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto">
              <Button variant="ghost" className="text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 font-bold gap-2 mr-4" asChild>
-               <a href="/">
+               <Link to="/">
                  <ArrowLeft className="w-5 h-5" />
                  Podcast'e Dön
-               </a>
+               </Link>
              </Button>
 
              <div className="hidden md:flex flex-col items-end gap-1">

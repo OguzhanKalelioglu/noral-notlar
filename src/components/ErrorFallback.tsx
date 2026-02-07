@@ -34,7 +34,7 @@ export function ErrorFallback({
     if (onGoHome) {
       onGoHome();
     } else {
-      window.location.href = '/';
+      window.location.href = import.meta.env.BASE_URL;
     }
   };
 

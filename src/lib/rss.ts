@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { PODCAST_FALLBACK_IMAGE } from '@/lib/assets';
 
 // RSS Episode veri yapısı
 export const EpisodeSchema = z.object({
@@ -50,7 +51,7 @@ export async function fetchPodcastFeed(): Promise<PodcastFeed> {
           return {
             title: data.feed.title || 'Nöral Notlar',
             description: data.feed.description || '',
-            image: data.feed.image || '/src/assets/noral-notlar-logo.png',
+            image: data.feed.image || PODCAST_FALLBACK_IMAGE,
             episodes: data.items.slice(0, 3).map((item: any, index: number) => ({
               title: item.title || '',
               description: (item.description || '').replace(/<[^>]*>/g, '').substring(0, 200) + '...',
@@ -63,7 +64,7 @@ export async function fetchPodcastFeed(): Promise<PodcastFeed> {
               iTunes: {
                 duration: item.enclosure?.duration ? Math.floor(item.enclosure.duration / 60) + ':' +
                            String(Math.floor(item.enclosure.duration % 60)).padStart(2, '0') : '',
-                image: item.thumbnail || item.enclosure?.image || '/src/assets/noral-notlar-logo.png',
+                image: item.thumbnail || item.enclosure?.image || PODCAST_FALLBACK_IMAGE,
                 summary: (item.description || '').replace(/<[^>]*>/g, '').substring(0, 200) + '...',
               },
               guid: item.guid || `episode-${index}`,
@@ -126,7 +127,7 @@ export async function fetchPodcastFeed(): Promise<PodcastFeed> {
     const description = channel.querySelector('description')?.textContent || '';
     const image = channel.querySelector('image url')?.textContent ||
                   channel.querySelector('itunes\\:image')?.getAttribute('href') ||
-                  '/src/assets/noral-notlar-logo.png';
+                  PODCAST_FALLBACK_IMAGE;
 
     // Bölümleri al
     const items = Array.from(xmlDoc.querySelectorAll('item'));
@@ -139,7 +140,7 @@ export async function fetchPodcastFeed(): Promise<PodcastFeed> {
       const duration = item.querySelector('itunes\\:duration')?.textContent || '';
       const episodeImage = item.querySelector('itunes\\:image')?.getAttribute('href') ||
                            channel.querySelector('image url')?.textContent ||
-                           '/src/assets/noral-notlar-logo.png';
+                           PODCAST_FALLBACK_IMAGE;
       const guid = item.querySelector('guid')?.textContent || `episode-${index}`;
       const link = item.querySelector('link')?.textContent || '';
 
@@ -174,7 +175,7 @@ export async function fetchPodcastFeed(): Promise<PodcastFeed> {
     return {
       title: 'Nöral Notlar',
       description: 'Yapay zeka ve teknoloji podcast',
-      image: '/src/assets/noral-notlar-logo.png',
+      image: PODCAST_FALLBACK_IMAGE,
       episodes: [],
     };
   }

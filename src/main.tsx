@@ -13,18 +13,21 @@ import '@/index.css'
 import { HomePage } from '@/pages/HomePage'
 import Radar from '@/pages/Radar'
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <HomePage />,
-    errorElement: <RouteErrorBoundary />,
-  },
-  {
-    path: "/radar",
-    element: <Radar />,
-    errorElement: <RouteErrorBoundary />,
-  },
-]);
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <HomePage />,
+      errorElement: <RouteErrorBoundary />,
+    },
+    {
+      path: "/radar",
+      element: <Radar />,
+      errorElement: <RouteErrorBoundary />,
+    },
+  ],
+  { basename: import.meta.env.BASE_URL }
+);
 
 // Do not touch this code
 createRoot(document.getElementById('root')!).render(

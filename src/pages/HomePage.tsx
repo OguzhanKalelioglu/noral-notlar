@@ -6,8 +6,10 @@ import { Toaster } from '@/components/ui/sonner';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
 import { Play, PlayCircle, Send, Radio, Clock, Calendar } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { AIIllustrationIcon, ApplePodcastsIcon, InstagramIcon, ScribbleIcon, SpotifyIcon, TwitterIcon } from '@/components/Icons';
 import { fetchPodcastFeed, Episode } from '@/lib/rss';
+import { PODCAST_FALLBACK_IMAGE } from '@/lib/assets';
 import { AudioPlayer } from '@/components/AudioPlayer';
 import { NewsletterForm } from '@/components/NewsletterForm';
 export function HomePage() {
@@ -67,7 +69,7 @@ const Header = () => (
   <header className="sticky top-0 z-50 bg-amber-500/80 backdrop-blur-sm border-b border-deepIndigo-900/10">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="flex items-center justify-between h-20">
-        <a href="/" className="flex items-center gap-2 group">
+        <Link to="/" className="flex items-center gap-2 group">
           <svg 
             width="32" 
             height="32" 
@@ -88,15 +90,21 @@ const Header = () => (
             <line x1="10" y1="24" x2="20" y2="24" stroke="#8B5CF6" strokeWidth="1.5" strokeLinecap="round"/>
           </svg>
           <span className="text-2xl font-display font-bold">Nöral Notlar</span>
-        </a>
+        </Link>
         <nav className="hidden md:flex items-center space-x-8">
-          <a href="/radar" className="font-semibold hover:text-offWhite transition-colors flex items-center gap-1">
+          <Link to="/radar" className="font-semibold hover:text-offWhite transition-colors flex items-center gap-1">
             <Radio className="w-4 h-4" /> Radar
-          </a>
+          </Link>
           <a href="#episodes" className="font-semibold hover:text-offWhite transition-colors">Bölümler</a>
           <a href="#subscribe" className="font-semibold hover:text-offWhite transition-colors">Abone Ol</a>
         </nav>
         <div className="flex items-center gap-2 bg-deepIndigo-900/10 rounded-full p-1">
+          <Link
+            to="/radar"
+            className="md:hidden inline-flex items-center gap-1 rounded-full bg-deepIndigo-900 px-3 py-2 text-sm font-semibold text-offWhite"
+          >
+            <Radio className="w-4 h-4" /> Radar
+          </Link>
           <a 
             href="https://open.spotify.com/show/7FP1bUx3o5FL64v9L2zJ5G" 
             target="_blank" 
@@ -407,13 +415,13 @@ const EpisodesSection = ({ loading, episodes, onPlayEpisode }: {
                 <Card className="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col sm:flex-row items-center">
                   <div className="w-full sm:w-48 flex-shrink-0 mx-4">
                     <img
-                      src={episode.iTunes?.image || '/src/assets/noral-notlar-logo.png'}
+                      src={episode.iTunes?.image || PODCAST_FALLBACK_IMAGE}
                       alt={episode.title}
                       className="w-full h-48 sm:h-full object-cover rounded-lg"
                       onError={(e) => {
                         console.log('Image failed to load:', episode.iTunes?.image);
                         const target = e.target as HTMLImageElement;
-                        target.src = '/src/assets/noral-notlar-logo.png';
+                        target.src = PODCAST_FALLBACK_IMAGE;
                       }}
                       onLoad={(e) => {
                         console.log('Image loaded successfully:', episode.iTunes?.image);
@@ -638,7 +646,7 @@ const Footer = () => (
           <span className="text-xl font-display font-bold text-offWhite">Nöral Notlar</span>
         </div>
         <img 
-          src="/src/assets/noral-notlar-logo.png" 
+          src={PODCAST_FALLBACK_IMAGE}
           alt="Nöral Notlar Logo" 
           className="w-[100px] h-[100px] object-contain opacity-80 hover:opacity-100 transition-opacity"
         />
